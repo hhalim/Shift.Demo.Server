@@ -24,10 +24,12 @@ namespace Shift.Demo.Server
                 switch (cki.KeyChar.ToString())
                 {
                     case "1":
-                        RunJobs();
+                        jobServer.RunServer();
+                        Console.WriteLine("==> Server started.");
                         break;
                     case "2":
-                        StopServer();
+                        jobServer.StopServer();
+                        Console.WriteLine("==> Server stopped.");
                         break;
                 }
             } while (cki.Key != ConsoleKey.Escape);
@@ -48,62 +50,20 @@ namespace Shift.Demo.Server
         {
             var baseDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-            var options = new Shift.Options();
-            options.AssemblyListPath = baseDir + @"\client-assemblies\assemblylist.txt";
-            options.AssemblyBaseDir = baseDir + @"\client-assemblies\"; //base dir for DLLs
-            options.MaxRunnableJobs = 5;
-            options.ProcessID = -999; //negative number for demo/testing
-            options.DBConnectionString = "Data Source=localhost\\SQL2014;Initial Catalog=BGProcess;user=bguser; password=bguser"; //should be in config or DB
-            options.CacheConfigurationString = "localhost:6379,password=LZLxuFbuPCdxcizNuuDJ0EdoXit1YHoiln8lsTVzPgGTeNB1DkoETMeCZI3FNjvQ"; //should be in config
+            var config = new Shift.ServerConfig();
+            config.AssemblyListPath = baseDir + @"\client-assemblies\assemblylist.txt";
+            config.AssemblyBaseDir = baseDir + @"\client-assemblies\"; //base dir for DLLs
+            config.MaxRunnableJobs = 10;
+            config.ProcessID = "-123"; //demo/testing ID
+            config.DBConnectionString = "Data Source=localhost\\SQL2014;Initial Catalog=ShiftJobsDB;Integrated Security=SSPI;"; //should be in app.config or global DB
+            config.UseCache = true;
+            config.CacheConfigurationString = "localhost:6379"; //should be in app.config
             //options.EncryptionKey = "[OPTIONAL_ENCRYPTIONKEY]"; //optional, will encrypt parameters in DB if filled
 
-            jobServer = new JobServer(options);
-            jobServer.Start();
+            jobServer = new JobServer(config);
 
             addedJobIDs = new List<int>();
         }
 
-        private static Timer _timer = null;
-        private static Timer _timer2 = null;
-
-        private static void RunJobs()
-        {
-            //Close any existing timers if not too many timers running.
-            if (_timer != null && _timer2 != null)
-            {
-                _timer.Close();
-                _timer2.Close();
-            }
-
-            _timer = new Timer();
-            _timer.Enabled = true;
-            _timer.Interval = 5000;
-            _timer.Elapsed += (sender, e) => {
-                jobServer.StopJobs();
-                jobServer.StopDeleteJobs();
-                jobServer.StartJobs();
-            };
-
-            _timer2 = new Timer();
-            _timer2.Enabled = true;
-            _timer2.Interval = 10000;
-            _timer2.Elapsed += (sender, e) => {
-                jobServer.CleanUp();
-            };
-
-            Console.WriteLine();
-            Console.WriteLine("==> Server starts running jobs.");
-        }
-
-        private static void StopServer()
-        {
-            if (_timer != null && _timer2 != null)
-            {
-                _timer.Close();
-                _timer2.Close();
-            }
-            Console.WriteLine();
-            Console.WriteLine("==> Server stopped.");
-        }
     }
 }

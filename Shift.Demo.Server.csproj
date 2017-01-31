@@ -36,9 +36,6 @@
     <Reference Include="Shift">
       <HintPath>libs\Shift.dll</HintPath>
     </Reference>
-    <Reference Include="Shift.Entities">
-      <HintPath>libs\Shift.Entities.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

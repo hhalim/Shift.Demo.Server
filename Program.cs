@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,7 @@ namespace Shift.Demo.Server
                 }
             } while (cki.Key != ConsoleKey.Escape);
 
+            jobServer.StopServer(); //always stop server before terminating app
         }
 
         static public ConsoleKeyInfo DisplayMenu()
@@ -51,13 +53,13 @@ namespace Shift.Demo.Server
             var baseDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
             var config = new Shift.ServerConfig();
-            config.AssemblyListPath = baseDir + @"\client-assemblies\assemblylist.txt";
-            config.AssemblyBaseDir = baseDir + @"\client-assemblies\"; //base dir for DLLs
-            config.MaxRunnableJobs = 10;
-            config.ProcessID = "-123"; //demo/testing ID
-            config.DBConnectionString = "Data Source=localhost\\SQL2014;Initial Catalog=ShiftJobsDB;Integrated Security=SSPI;"; //should be in app.config or global DB
-            config.UseCache = true;
-            config.CacheConfigurationString = "localhost:6379"; //should be in app.config
+            config.AssemblyListPath = baseDir + ConfigurationManager.AppSettings["AssemblyListPath"];
+            config.AssemblyBaseDir = baseDir + ConfigurationManager.AppSettings["AssemblyBaseDir"]; //base dir for DLLs
+            config.MaxRunnableJobs = Convert.ToInt32(ConfigurationManager.AppSettings["MaxRunnableJobs"]);
+            config.ProcessID = ConfigurationManager.AppSettings["ShiftPID"]; //demo/testing ID
+            config.DBConnectionString = ConfigurationManager.ConnectionStrings["ShiftDBConnection"].ConnectionString;
+            config.UseCache = Convert.ToBoolean(ConfigurationManager.AppSettings["UseCache"]);
+            config.CacheConfigurationString = ConfigurationManager.AppSettings["CacheConfigurationString"];
             //options.EncryptionKey = "[OPTIONAL_ENCRYPTIONKEY]"; //optional, will encrypt parameters in DB if filled
 
             jobServer = new JobServer(config);

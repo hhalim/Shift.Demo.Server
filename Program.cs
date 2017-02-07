@@ -50,11 +50,8 @@ namespace Shift.Demo.Server
 
         private static void InitShiftServer()
         {
-            var baseDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-
             var config = new Shift.ServerConfig();
-            config.AssemblyListPath = baseDir + ConfigurationManager.AppSettings["AssemblyListPath"];
-            config.AssemblyBaseDir = baseDir + ConfigurationManager.AppSettings["AssemblyBaseDir"]; //base dir for DLLs
+            config.AssemblyListPath = ConfigurationManager.AppSettings["AssemblyListPath"];
             config.MaxRunnableJobs = Convert.ToInt32(ConfigurationManager.AppSettings["MaxRunnableJobs"]);
             config.ProcessID = ConfigurationManager.AppSettings["ShiftPID"]; //demo/testing ID
             config.DBConnectionString = ConfigurationManager.ConnectionStrings["ShiftDBConnection"].ConnectionString;

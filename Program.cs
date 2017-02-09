@@ -11,7 +11,6 @@ namespace Shift.Demo.Server
     class Program
     {
         private static JobServer jobServer;
-        private static IList<int> addedJobIDs;
 
         static void Main(string[] args)
         {
@@ -51,7 +50,8 @@ namespace Shift.Demo.Server
         private static void InitShiftServer()
         {
             var config = new Shift.ServerConfig();
-            config.AssemblyListPath = ConfigurationManager.AppSettings["AssemblyListPath"];
+            config.AssemblyFolder = ConfigurationManager.AppSettings["AssemblyFolder"];
+            //config.AssemblyListPath = ConfigurationManager.AppSettings["AssemblyListPath"];
             config.MaxRunnableJobs = Convert.ToInt32(ConfigurationManager.AppSettings["MaxRunnableJobs"]);
             config.ProcessID = ConfigurationManager.AppSettings["ShiftPID"]; //demo/testing ID
             config.DBConnectionString = ConfigurationManager.ConnectionStrings["ShiftDBConnection"].ConnectionString;
@@ -61,7 +61,6 @@ namespace Shift.Demo.Server
 
             jobServer = new JobServer(config);
 
-            addedJobIDs = new List<int>();
         }
 
     }

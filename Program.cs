@@ -59,6 +59,9 @@ namespace Shift.Demo.Server
             config.CacheConfigurationString = ConfigurationManager.AppSettings["CacheConfigurationString"];
             //options.EncryptionKey = "[OPTIONAL_ENCRYPTIONKEY]"; //optional, will encrypt parameters in DB if filled
 
+            config.AutoDeletePeriod = Convert.ToInt32(ConfigurationManager.AppSettings["AutoDeletePeriod"]);
+            //config.AutoDeleteStatus = new List<JobStatus?> { JobStatus.Completed, JobStatus.Error }; //Auto delete only the jobs that had Stopped or with Error
+
             jobServer = new JobServer(config);
 
         }

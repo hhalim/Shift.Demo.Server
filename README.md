@@ -3,6 +3,27 @@ A simple console app that contains a working Shift server. Demonstrate Shift ser
 
 Before running this app, please configure the storage connection string, cache usage, and assembly folder location in App.config file.
 
+```
+<connectionStrings>
+  <add name="ShiftDBConnection" connectionString="Data Source=localhost\SQL2014;Initial Catalog=ShiftJobsDB;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
+</connectionStrings>
+
+<appSettings>
+  <add key="MaxRunableJobs" value="10" />
+  <add key="AssemblyFolder" value="client-assemblies\" />
+  <!-- <add key="AssemblyListPath" value="client-assemblies\assemblylist.txt" /> -->
+  <add key="ShiftPID" value="-123"/>
+
+  <add key="UseCache" value="true" />
+  <add key="CacheConfigurationString" value="localhost:6379"/>
+
+  <!-- Shift AutoDelete -->
+  <add key="AutoDeletePeriod" value="120"/>
+</appSettings>
+```
+
+The database connection string is required, if you're using Redis cache, set `UseCache` to true and the `CacheConfigurationString`.
+
 ## Menu
 ```
 Shift Server Demo

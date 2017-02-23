@@ -1,7 +1,7 @@
 # Shift.Demo.Server
 A simple console app that contains a working Shift server. Demonstrate Shift server configuration, easy start up, dynamic assembly loading, and queue polling.
 
-Before running this app, please configure the storage connection string, cache usage, and assembly folder location in App.config file.
+Before running this app, please configure the storage connection string, cache usage, and assembly folder location in App.config file. Refer to [Shift Quick Setup](https://github.com/hhalim/Shift/wiki/Quick-Start#infrastructure-setup) for link to Redis windows MSI installation package and how to setup the SQL database tables.
 
 ```
 <connectionStrings>

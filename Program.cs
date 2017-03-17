@@ -55,13 +55,19 @@ namespace Shift.Demo.Server
             config.MaxRunnableJobs = Convert.ToInt32(ConfigurationManager.AppSettings["MaxRunnableJobs"]);
             config.ProcessID = ConfigurationManager.AppSettings["ShiftPID"]; //demo/testing ID
             config.DBConnectionString = ConfigurationManager.ConnectionStrings["ShiftDBConnection"].ConnectionString;
-            config.UseCache = Convert.ToBoolean(ConfigurationManager.AppSettings["UseCache"]);
-            config.CacheConfigurationString = ConfigurationManager.AppSettings["CacheConfigurationString"];
-            //options.EncryptionKey = "[OPTIONAL_ENCRYPTIONKEY]"; //optional, will encrypt parameters in DB if filled
 
             var autoDeletePeriod = ConfigurationManager.AppSettings["AutoDeletePeriod"];
             config.AutoDeletePeriod = string.IsNullOrWhiteSpace(autoDeletePeriod) ? null : (int?)Convert.ToInt32(autoDeletePeriod);
             //config.AutoDeleteStatus = new List<JobStatus?> { JobStatus.Completed, JobStatus.Error }; //Auto delete only the jobs that had Stopped or with Error
+
+            config.StorageMode = ConfigurationManager.AppSettings["StorageMode"];
+            var progressDBInterval = ConfigurationManager.AppSettings["ProgressDBInterval"];
+            if (!string.IsNullOrWhiteSpace(progressDBInterval))
+                config.ProgressDBInterval = TimeSpan.Parse(progressDBInterval); //Interval when progress is updated in main DB
+
+            //config.UseCache = Convert.ToBoolean(ConfigurationManager.AppSettings["UseCache"]);
+            //config.CacheConfigurationString = ConfigurationManager.AppSettings["CacheConfigurationString"];
+            //options.EncryptionKey = "[OPTIONAL_ENCRYPTIONKEY]"; //optional, will encrypt parameters in DB if filled
 
             jobServer = new JobServer(config);
 

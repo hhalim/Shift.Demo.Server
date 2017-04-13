@@ -67,7 +67,8 @@ namespace Shift.Demo.Server
 
             //config.UseCache = Convert.ToBoolean(ConfigurationManager.AppSettings["UseCache"]);
             //config.CacheConfigurationString = ConfigurationManager.AppSettings["CacheConfigurationString"];
-            //options.EncryptionKey = "[OPTIONAL_ENCRYPTIONKEY]"; //optional, will encrypt parameters in DB if filled
+            //config.EncryptionKey = "[OPTIONAL_ENCRYPTIONKEY]"; //optional, will encrypt parameters in DB if filled
+            //config.PollingOnce = Convert.ToBoolean(ConfigurationManager.AppSettings["PollingOnce"]);
 
             jobServer = new JobServer(config);
 

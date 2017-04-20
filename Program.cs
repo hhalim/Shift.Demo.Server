@@ -55,20 +55,24 @@ namespace Shift.Demo.Server
             config.MaxRunnableJobs = Convert.ToInt32(ConfigurationManager.AppSettings["MaxRunnableJobs"]);
             config.ProcessID = ConfigurationManager.AppSettings["ShiftPID"]; //demo/testing ID
             config.DBConnectionString = ConfigurationManager.ConnectionStrings["ShiftDBConnection"].ConnectionString;
-
-            var autoDeletePeriod = ConfigurationManager.AppSettings["AutoDeletePeriod"];
-            config.AutoDeletePeriod = string.IsNullOrWhiteSpace(autoDeletePeriod) ? null : (int?)Convert.ToInt32(autoDeletePeriod);
-            //config.AutoDeleteStatus = new List<JobStatus?> { JobStatus.Completed, JobStatus.Error }; //Auto delete only the jobs that has Stopped or with Error
+            config.Workers = Convert.ToInt32(ConfigurationManager.AppSettings["ShiftWorkers"]);
 
             config.StorageMode = ConfigurationManager.AppSettings["StorageMode"];
             var progressDBInterval = ConfigurationManager.AppSettings["ProgressDBInterval"];
             if (!string.IsNullOrWhiteSpace(progressDBInterval))
                 config.ProgressDBInterval = TimeSpan.Parse(progressDBInterval); //Interval when progress is updated in main DB
 
+            var autoDeletePeriod = ConfigurationManager.AppSettings["AutoDeletePeriod"];
+            config.AutoDeletePeriod = string.IsNullOrWhiteSpace(autoDeletePeriod) ? null : (int?)Convert.ToInt32(autoDeletePeriod);
+            //config.AutoDeleteStatus = new List<JobStatus?> { JobStatus.Completed, JobStatus.Error }; //Auto delete only the jobs that has completed or with error.
+
+            config.ForceStopServer = Convert.ToBoolean(ConfigurationManager.AppSettings["ForceStopServer"]); //Set to true to allow windows service to shut down after a set delay in StopServerDelay
+            config.StopServerDelay = Convert.ToInt32(ConfigurationManager.AppSettings["StopServerDelay"]);
+
             //config.UseCache = Convert.ToBoolean(ConfigurationManager.AppSettings["UseCache"]);
             //config.CacheConfigurationString = ConfigurationManager.AppSettings["CacheConfigurationString"];
             //config.EncryptionKey = "[OPTIONAL_ENCRYPTIONKEY]"; //optional, will encrypt parameters in DB if filled
-            //config.PollingOnce = Convert.ToBoolean(ConfigurationManager.AppSettings["PollingOnce"]);
+            config.PollingOnce = Convert.ToBoolean(ConfigurationManager.AppSettings["PollingOnce"]);
 
             jobServer = new JobServer(config);
 

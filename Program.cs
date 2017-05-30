@@ -53,7 +53,7 @@ namespace Shift.Demo.Server
             config.AssemblyFolder = ConfigurationManager.AppSettings["AssemblyFolder"];
             //config.AssemblyListPath = ConfigurationManager.AppSettings["AssemblyListPath"];
             config.MaxRunnableJobs = Convert.ToInt32(ConfigurationManager.AppSettings["MaxRunnableJobs"]);
-            config.ProcessID = ConfigurationManager.AppSettings["ShiftPID"]; //demo/testing ID
+            //config.ProcessID = ConfigurationManager.AppSettings["ShiftPID"]; //demo/testing ID
             config.DBConnectionString = ConfigurationManager.ConnectionStrings["ShiftDBConnection"].ConnectionString;
             config.DBAuthKey = ConfigurationManager.AppSettings["DocumentDBAuthKey"];
             config.Workers = Convert.ToInt32(ConfigurationManager.AppSettings["ShiftWorkers"]);

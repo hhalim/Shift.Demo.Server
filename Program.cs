@@ -70,8 +70,6 @@ namespace Shift.Demo.Server
             config.ForceStopServer = Convert.ToBoolean(ConfigurationManager.AppSettings["ForceStopServer"]); //Set to true to allow windows service to shut down after a set delay in StopServerDelay
             config.StopServerDelay = Convert.ToInt32(ConfigurationManager.AppSettings["StopServerDelay"]);
 
-            //config.UseCache = Convert.ToBoolean(ConfigurationManager.AppSettings["UseCache"]);
-            //config.CacheConfigurationString = ConfigurationManager.AppSettings["CacheConfigurationString"];
             //config.EncryptionKey = "[OPTIONAL_ENCRYPTIONKEY]"; //optional, will encrypt parameters in DB if filled
             config.PollingOnce = Convert.ToBoolean(ConfigurationManager.AppSettings["PollingOnce"]);
 
